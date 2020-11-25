@@ -3,14 +3,16 @@ package ipvc.estg.pmtrab4
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -38,9 +40,10 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap = googleMap
 
         // Add a marker in Sydney and move the camera
-        /*val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))*/
+        val viana = LatLng(41.691807, -8.834451)
+        val zoomLevel = 16.0f
+        //mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(viana, zoomLevel))
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -56,11 +59,11 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             }
             R.id.logout_btn -> {
                 val sharedPref: SharedPreferences = getSharedPreferences(
-                    getString(R.string.preference_file_key), Context.MODE_PRIVATE )
-                with ( sharedPref.edit() ) {
-                    putBoolean(getString(R.string.automatic_login_check), false )
-                    putString(getString(R.string.automatic_login_username), null )
-                    putString(getString(R.string.automatic_login_password), null )
+                        getString(R.string.preference_file_key), Context.MODE_PRIVATE)
+                with(sharedPref.edit()) {
+                    putBoolean(getString(R.string.automatic_login_check), false)
+                    putString(getString(R.string.automatic_login_username), null)
+                    putString(getString(R.string.automatic_login_password), null)
                     commit()
                 }
 
