@@ -3,25 +3,34 @@ package ipvc.estg.pmtrab4
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import ipvc.estg.pmtrab4.entity.Note
+import java.sql.Types.NULL
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback {
-
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var mMap: GoogleMap
+    private var LOCATION_PERMISSION_REQUEST_CODE=1
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -38,11 +47,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
      */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-
-        // Add a marker in Sydney and move the camera
         val viana = LatLng(41.691807, -8.834451)
         val zoomLevel = 16.0f
-        //mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(viana, zoomLevel))
     }
 
@@ -51,10 +57,27 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         inflater.inflate(R.menu.menu_map, menu)
         return true
     }
+    fun setUpMap(){
+        if (ActivityCompat.checkSelfPermission(this,
+                        android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+            return
+        }else {
+            mMap.isMyLocationEnabled = true
+            fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
+                if (location != null) {
+                    var currentLatLng = LatLng(location.latitude, location.longitude).toString()
+                    val intent = Intent( this, addmarker::class.java)
+                    intent.putExtra(addmarker.EXTRA_LOCAL, currentLatLng)
+                    startActivity(intent)
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+                }
+            }}}
+        override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.new_marker_btn -> {
+                setUpMap()
                 true
             }
             R.id.logout_btn -> {

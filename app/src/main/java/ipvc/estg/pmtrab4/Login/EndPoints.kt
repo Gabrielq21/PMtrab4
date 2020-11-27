@@ -1,5 +1,7 @@
 package ipvc.estg.pmtrab4.Login
 
+import android.text.Editable
+import com.google.android.gms.maps.model.LatLng
 import retrofit2.Call
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -15,6 +17,8 @@ interface LoginEndPoints {
     @POST("myslim/api/login/create")
     fun postcreate(@Field("username") username: String, @Field("password") password: String): Call<LoginOutputPost>
     @FormUrlEncoded
-    @GET("myslim/api/login/{username}")
-    fun checkuser(@Field("username") username: String): Call<LoginOutputPost>
+    @POST("myslim/api/ticket/create")
+    fun create(@Field("username") username: String, @Field("tipo") tipo: String,@Field("texto") texto: Editable, @Field("local") local: String,  @Field("foto") foto: String): Call<TicketOutputPost>
+    @GET("myslim/api/tipo")
+    fun tipo(): Call<List<Tipo>>
 }

@@ -102,7 +102,6 @@ class MainActivity : AppCompatActivity() {
         
         if ( TextUtils.isEmpty(username) ) {
             Toast.makeText(this, R.string.fieldusernameemptylabel, Toast.LENGTH_LONG).show()
-            Toast.makeText(this, "$password", Toast.LENGTH_LONG).show()
             return
         }
         else if ( TextUtils.isEmpty(password) ) {
@@ -116,7 +115,7 @@ class MainActivity : AppCompatActivity() {
         val request = ServiceBuilder.buildService(LoginEndPoints::class.java)
         val call = request.postcreate(
             username,
-                password
+            password
         )
         call.enqueue(object : Callback<LoginOutputPost> {
             override fun onResponse(call: Call<LoginOutputPost>,response: Response<LoginOutputPost>)
