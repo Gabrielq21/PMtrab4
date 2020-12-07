@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -13,28 +14,60 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import ipvc.estg.pmtrab4.entity.Note
-import java.sql.Types.NULL
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
+import ipvc.estg.pmtrab4.Login.LoginEndPoints
+import ipvc.estg.pmtrab4.Login.ServiceBuilder
+import ipvc.estg.pmtrab4.dataclasse.Nota
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var mMap: GoogleMap
     private var LOCATION_PERMISSION_REQUEST_CODE=1
-
+    lateinit var longitude:String
+    lateinit var latitude:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        longitude = ""
+        latitude = ""
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        val request = ServiceBuilder.buildService(LoginEndPoints::class.java)
+        val call = request.getNotas()
+        var position: LatLng
+
+        call.enqueue(object : Callback<List<Nota>> {
+            override fun onResponse(call: Call<List<Nota>>, response: Response<List<Nota>>) {
+                if (response.isSuccessful) {
+                    val c = response.body()!!
+
+                    for (note in c) {
+                        position = LatLng(note.lat.toDouble(), note.lon.toDouble())
+                        var marker = mMap.addMarker(MarkerOptions().position(position).title("${note.texto}"))
+                        marker.tag = note.id
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<List<Nota>>, t: Throwable) {
+            }
+        })
     }
+
 
     /**
      * Manipulates the map once available.
@@ -47,9 +80,19 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
      */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        val viana = LatLng(41.691807, -8.834451)
-        val zoomLevel = 16.0f
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(viana, zoomLevel))
+        setUpMap()
+        mMap.setOnMarkerClickListener( object: GoogleMap.OnMarkerClickListener {
+            override fun onMarkerClick(p0: Marker): Boolean {
+
+                val intent = Intent(this@MapActivity, ticket::class.java)
+                setUpMap()
+                intent.putExtra(ticket.EXTRA_LAT, latitude)
+                intent.putExtra(ticket.EXTRA_LON, longitude)
+                intent.putExtra(ticket.EXTRA_MSG, p0.tag.toString())
+                startActivity(intent)
+                return false
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -67,10 +110,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             mMap.isMyLocationEnabled = true
             fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
                 if (location != null) {
-                    var currentLatLng = LatLng(location.latitude, location.longitude).toString()
-                    val intent = Intent( this, addmarker::class.java)
-                    intent.putExtra(addmarker.EXTRA_LOCAL, currentLatLng)
-                    startActivity(intent)
+                    latitude = location.latitude.toString()
+                    longitude = location.longitude.toString()
+
 
                 }
             }}}
@@ -78,6 +120,10 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         return when (item.itemId) {
             R.id.new_marker_btn -> {
                 setUpMap()
+                val intent = Intent(this, addmarker::class.java)
+                intent.putExtra(addmarker.EXTRA_LAT, latitude)
+                intent.putExtra(addmarker.EXTRA_LON, longitude)
+                startActivity(intent)
                 true
             }
             R.id.logout_btn -> {

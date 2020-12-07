@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/ticket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:hint="Descrição"
+        android:inputType="textAutoComplete"
+        android:textSize="18sp" />
+    <EditText
+        android:id="@+id/edit_ticket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:hint="ticket"
+        android:inputType="textAutoComplete"
+        android:textSize="18sp" />
+    <TextView
+        android:id="@+id/latitude"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:hint="Latitude"
+        android:inputType="textAutoComplete"
+        android:textSize="18sp" />
+    <EditText
+    android:id="@+id/edit_lat"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fontFamily="sans-serif-light"
+    android:hint="ticket"
+    android:inputType="textAutoComplete"
+    android:textSize="18sp" />
+    <TextView
+        android:id="@+id/longitude"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:hint="Longitude"
+        android:inputType="textAutoComplete"
+        android:textSize="18sp" />
+    <EditText
+    android:id="@+id/edit_lon"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fontFamily="sans-serif-light"
+    android:hint="ticket"
+    android:inputType="textAutoComplete"
+    android:textSize="18sp" />
+    <TextView
+        android:id="@+id/tipo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:hint="Tipo"
+        android:inputType="textAutoComplete"
+        android:textSize="18sp" />
+    <EditText
+        android:id="@+id/edit_tipo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:hint="Tipo"
+        android:inputType="textAutoComplete"
+        android:textSize="18sp" />
+
+
+    <Button
+        android:id="@+id/button_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btnsave"
+        android:background="@color/design_default_color_primary"/>
+</LinearLayout>

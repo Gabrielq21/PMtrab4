@@ -76,7 +76,6 @@ class MainActivity : AppCompatActivity() {
                             with ( sharedPref.edit() ) {
                                 putBoolean(getString(R.string.automatic_login_check), true)
                                 putString(getString(R.string.automatic_login_username), username )
-                                putString(getString(R.string.automatic_login_password), password )
                                 commit()
                             }
                             val intent = Intent(this@MainActivity, MapActivity::class.java)

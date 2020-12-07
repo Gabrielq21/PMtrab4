@@ -9,3 +9,6 @@ data class LoginOutputPost(
 data class TicketOutputPost(
         val success: Boolean
 )
+data class OnwerOutputPost(
+        val success: Boolean
+)

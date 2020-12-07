@@ -31,15 +31,15 @@ class addmarker : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_addmarker)
         var tipo = String();
-        var lastposition: String;
         val sharedPref: SharedPreferences = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
         var username:String? = sharedPref.getString("automatic_login_username", null)
         var foto="/URL/HELLO"
-        val date= intent.getStringExtra(EXTRA_LOCAL)
-        lastposition= date.toString();
+        val lat= intent.getStringExtra(EXTRA_LAT).toString()
+        val lon= intent.getStringExtra(EXTRA_LON).toString()
         createmarkerView = findViewById(R.id.marker_texto)
         val texto = createmarkerView.text
         val types = resources.getStringArray(R.array.Types)
+
         val spinner = findViewById<Spinner>(R.id.spinner1)
         if (spinner != null) {
             val adapter = ArrayAdapter(this,
@@ -63,7 +63,8 @@ class addmarker : AppCompatActivity() {
                 username.toString(),
                 tipo,
                 texto,
-                lastposition,
+                lat,
+                lon,
                 foto
 
         )
@@ -90,6 +91,7 @@ class addmarker : AppCompatActivity() {
 
     }
     companion object {
-        const val EXTRA_LOCAL = "com.example.android.wordlistsql.LOCAL"
+        const val EXTRA_LAT = "com.example.android.wordlistsql.LAT"
+        const val EXTRA_LON = "com.example.android.wordlistsql.LON"
     }
 }
