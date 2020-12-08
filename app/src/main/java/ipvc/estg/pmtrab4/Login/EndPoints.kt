@@ -9,7 +9,7 @@ import retrofit2.http.*
 interface LoginEndPoints {
 
     @FormUrlEncoded
-    @POST("/myslim/api/login/post")
+    @POST("/myslim/api/login/enter")
     fun postTest(@Field("username") username: String, @Field("password") password: String): Call<LoginOutputPost>
     @FormUrlEncoded
     @POST("myslim/api/login/create")
@@ -21,4 +21,10 @@ interface LoginEndPoints {
     fun getNotas(): Call<List<Nota>>
     @GET("/myslim/api/select/{id}")
     fun getNota(@Path("id") id: Int): Call<List<Nota>>
+    @FormUrlEncoded
+    @POST("myslim/api/ticket/update")
+    fun updateTicket(@Field("id") id: Int?, @Field("tipo") tipo: String,@Field("texto") texto: String, @Field("lat") lat: String, @Field("lon") lon: String): Call<TicketOutputPost>
+    @GET("myslim/api/ticket/remove/{id}")
+    fun removeTicket(@Path("id") id: Int?): Call<TicketOutputPost>
+
 }

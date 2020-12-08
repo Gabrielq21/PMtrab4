@@ -5,6 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
+        android:id="@+id/viewticket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:hint="Descrição"
+        android:inputType="textAutoComplete"
+        android:textSize="18sp" />
+    <TextView
         android:id="@+id/ticket"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,20 +21,44 @@
         android:inputType="textAutoComplete"
         android:textSize="18sp" />
     <TextView
-        android:id="@+id/latitude"
+        android:id="@+id/viewlat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
         android:hint="Latitude"
         android:inputType="textAutoComplete"
         android:textSize="18sp" />
-
     <TextView
-        android:id="@+id/longitude"
+        android:id="@+id/lat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:hint="Latitude"
+        android:inputType="textAutoComplete"
+        android:textSize="18sp" />
+    <TextView
+        android:id="@+id/viewlon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
         android:hint="Longitude"
+        android:inputType="textAutoComplete"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/lon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:hint="Longitude"
+        android:inputType="textAutoComplete"
+        android:textSize="18sp" />
+    <TextView
+        android:id="@+id/viewtipo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:hint="Tipo"
         android:inputType="textAutoComplete"
         android:textSize="18sp" />
 
